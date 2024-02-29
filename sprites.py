@@ -89,6 +89,7 @@ class Player(Sprite):
         #add y collision in future
         self.collide_with_obj(self.game.power, True)
 
+
 class Wall(Sprite):
     # creat init method/function that allow us to assign properties
     def __init__(self, game, x, y):
@@ -116,6 +117,8 @@ class Power(Sprite):
         self.y = y
         self.rect.x = x * TILESIZE
         self.rect.y = y * TILESIZE
+
+
 
 
 
