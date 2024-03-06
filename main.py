@@ -37,6 +37,7 @@ class Game:
         self.all_sprites = pg.sprite.Group()
         self.walls = pg.sprite.Group()
         self.power = pg.sprite.Group()
+        self.mod = pg.sprite.Group()
         # self.player = Player(self, 10, 10)
         # for x in range(10, 20):
         #     Wall(self, x, 5)
@@ -52,6 +53,8 @@ class Game:
                     self.player = Player(self, col, row)
                 if tile == 'U':
                     Power(self, col, row)
+                if tile == 'M':
+                    Mob(self, col, row)
 
     
     def run(self):
