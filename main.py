@@ -9,7 +9,7 @@ from sprites import *
 from os import path
 # data types: in, string, float, bool
 
-#
+# Character abilities, Health Bar, randomly spawned enemies
 
 #creating the game class
 class Game:
