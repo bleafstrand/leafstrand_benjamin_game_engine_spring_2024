@@ -66,30 +66,7 @@ class Player(Sprite):
                     self.y = hits[0].rect.bottom 
                 self.vy=0
                 self.rect.y = self.y
-    
-        if dir == 'y':
-            hits = pg.sprite.spritecollide(self, self.game.power, True)
-            if hits: 
-                if self.vy > 0:
-                    self.y = hits[0].rect.top - self.rect.height
-                if self.vy < 0:
-                    self.y = hits[0].rect.bottom 
-                self.vy=0
-                self.rect.y = self.y
-    class Mob(pg.sprite.Sprite):
-        def __init__(self, game, x, y):
-            self.groups = game.all_sprites, game.mobs
-            pg.sprite.Sprite.__init__(self, self.groups)
-            self.game = game
-            self.image = pg.Surface((TILESIZE, TILESIZE))
-            self.image.fill(RED)
-            self.rect = self.image.get_rect()
-            self.x = x
-            self.y = y
-            self.vx, self.vy = 100, 100
-            self.x = x * TILESIZE
-            self.y = y * TILESIZE
-            self.speed = 1
+
 #woohoo math
     def update(self):
         self.get_keys()
@@ -117,21 +94,20 @@ class Wall(Sprite):
         self.y = y
         self.rect.x = x * TILESIZE
         self.rect.y = y * TILESIZE
-
-class Power(Sprite):
-    # creat init method/function that allow us to assign properties
+class Mob(pg.sprite.Sprite):
     def __init__(self, game, x, y):
-        self.groups = game.all_sprites, game.power
-        Sprite.__init__(self, self.groups)
+        self.groups = game.all_sprites, game.mobs
+        pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
         self.image = pg.Surface((TILESIZE, TILESIZE))
-        self.image.fill(GREEN)
+        self.image.fill(RED)
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y
-        self.rect.x = x * TILESIZE
-        self.rect.y = y * TILESIZE
-
+        self.vx, self.vy = 100, 100
+        self.x = x * TILESIZE
+        self.y = y * TILESIZE
+        self.speed = 1
 
 
 

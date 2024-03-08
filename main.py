@@ -9,7 +9,7 @@ from sprites import *
 from os import path
 # data types: in, string, float, bool
 
-# Character abilities, Health Bar, randomly spawned enemies
+# Character abilities, Health Bar, randomly spawned enemies, start screen
 
 #creating the game class
 class Game:
@@ -36,8 +36,7 @@ class Game:
         # init all variables, setup groups, instantiate classes
         self.all_sprites = pg.sprite.Group()
         self.walls = pg.sprite.Group()
-        self.power = pg.sprite.Group()
-        self.mod = pg.sprite.Group()
+        self.mobs = pg.sprite.Group()
         # self.player = Player(self, 10, 10)
         # for x in range(10, 20):
         #     Wall(self, x, 5)
@@ -51,10 +50,25 @@ class Game:
                     Wall(self, col, row)
                 if tile == 'P':
                     self.player = Player(self, col, row)
-                if tile == 'U':
-                    Power(self, col, row)
                 if tile == 'M':
                     Mob(self, col, row)
+
+    def show_start_screen(self):
+        self.screen.fill(BGCOLOR)
+        self.draw_text(self.screen, "This is the start screen", 24, WHITE, WIDTH/2 - 32, 2)
+        pg.display.flip()
+        self.wait_for_key()
+
+    def wait_for_key(self):
+        waiting = True
+        while waiting:
+            self.clock.tick(FPS)
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    waiting = False
+                    self.quit()
+                if event.type == pg.KEYUP:
+                    waiting = False
 
     
     def run(self):
