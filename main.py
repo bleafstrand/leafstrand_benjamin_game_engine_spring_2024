@@ -53,12 +53,6 @@ class Game:
                 if tile == 'M':
                     Mob(self, col, row)
 
-    def show_start_screen(self):
-        self.screen.fill(BGCOLOR)
-        self.draw_text(self.screen, "This is the start screen", 24, WHITE, WIDTH/2 - 32, 2)
-        pg.display.flip()
-        self.wait_for_key()
-
     def wait_for_key(self):
         waiting = True
         while waiting:
@@ -70,6 +64,13 @@ class Game:
                 if event.type == pg.KEYUP:
                     waiting = False
 
+    def draw_text(self, surface, text, size, color, x, y):
+        font_name = pg.font.match_font('arial')
+        font = pg.font.Font(font_name, size)
+        text_surface = font.render(text, True, color)
+        text_rect = text_surface.get_rect()
+        text_rect.midtop = (x,y)
+        surface.blit(text_surface, text_rect)
     
     def run(self):
         self.playing = True
@@ -112,15 +113,26 @@ class Game:
                     #self.player.move(dy=1)
     
     def show_start_screen(self):
-        pass
+        self.screen.fill(BGCOLOR)
+        self.draw_text(self.screen, "This is the start screen", 24, GREEN, WIDTH/2 - 32, 2)
+        pg.display.flip()
+        self.wait_for_key()
 
-    def show_go_screen(self):
-        pass
+    def wait_for_key(self):
+        waiting = True
+        while waiting:
+            self.clock.tick(FPS)
+            for event in pg.event.get():
+                if event.type == pg.QUIT:
+                    waiting = False
+                    self.quit()
+                if event.type == pg.KEYUP:
+                    waiting = False
     
            
 #i have instantiated the game
 g = Game()
-#g.show_start_screen()
+g.show_start_screen()  # Display the start screen first
 while True:
     g.new()
     g.run()
