@@ -114,7 +114,7 @@ class Game:
     
     def show_start_screen(self):
         self.screen.fill(BGCOLOR)
-        self.draw_text(self.screen, "This is the start screen", 24, GREEN, WIDTH/2 - 32, 2)
+        self.draw_text(self.screen, "Welcome to magical realm of Dingus Land, Press any key to begin your adventure press any key", 25, GREEN, WIDTH/2 - 32, 2)
         pg.display.flip()
         self.wait_for_key()
 
