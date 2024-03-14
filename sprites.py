@@ -41,6 +41,7 @@ class Player(Sprite):
         if self.vx != 0 and self.vy != 0:
             self.vx *=0.7071
             self.vy *=0.7071
+        
     def collide_with_obj(self, group, kill):
         hits = pg.sprite.spritecollide(self, group, kill)
         if hits:
