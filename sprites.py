@@ -79,6 +79,17 @@ class Player(Sprite):
         self.collide_with_walls('y')
         #add y collision in future
         self.collide_with_obj(self.game.mobs, False)
+        if self.game.map_data[int(self.y // TILESIZE)][int(self.x // TILESIZE)] == 'F':
+                self.show_congratulations_popup()
+    
+    def show_congratulations_popup(self):
+        popup_text = "Congratulations! You finished the hardest game in the world."
+        popup_font = pg.font.Font(None, 30)
+        popup_surface = popup_font.render(popup_text, True, WHITE)
+        popup_rect = popup_surface.get_rect(center=(WIDTH // 2, HEIGHT // 2))
+        self.game.screen.blit(popup_surface, popup_rect)
+        pg.display.flip()
+        pg.time.wait(3000)
 
 
 class Wall(Sprite):
