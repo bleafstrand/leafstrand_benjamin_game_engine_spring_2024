@@ -22,6 +22,10 @@ class Player(Sprite):
         self.vx, self.vy = 0, 0
         self.x = x * TILESIZE
         self.y = y * TILESIZE
+        self.speed = 3000
+        self.dash_start_time = 0
+        self.dash_duration = 1
+    
 
     #def move(self, dx=0, dy=0):
         #self.x += dx
@@ -38,6 +42,14 @@ class Player(Sprite):
             self.vy = -PLAYER_SPEED
         if keys[pg.K_DOWN] or keys[pg.K_s]:
             self.vy = PLAYER_SPEED
+        if keys[pg.K_LSHIFT] or keys[pg.K_RSHIFT]:
+            if self.dash_start_time == 0:
+                self.dash_start_time = pg.time.get_ticks()
+            if pg.time.get_ticks() - self.dash_start_time < self.dash_duration * 100:
+                self.vx *= 2
+                self.vy *= 2
+            else:
+                self.dash_start_time = 0
         if self.vx != 0 and self.vy != 0:
             self.vx *=0.7071
             self.vy *=0.7071
