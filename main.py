@@ -9,7 +9,7 @@ from sprites import *
 from os import path
 # data types: in, string, float, bool
 
-# Character abilities, randomly spawned enemies, start screen
+# Character ability, spawned enemies, start screen
 
 #creating the game class
 class Game:
@@ -21,6 +21,7 @@ class Game:
         self.clock = pg.time.Clock()
         pg.key.set_repeat(500, 100)
         self.load_data()
+        pg.mixer.init()
     #we have defined the run method in our function
     
     #load game data
@@ -33,6 +34,8 @@ class Game:
 
 
     def new(self):
+        pg.mixer.music.load('music.mp3')
+        pg.mixer.music.play(loops=-1)
         # init all variables, setup groups, instantiate classes
         self.all_sprites = pg.sprite.Group()
         self.walls = pg.sprite.Group()
@@ -114,7 +117,7 @@ class Game:
     
     def show_start_screen(self):
         self.screen.fill(BGCOLOR)
-        self.draw_text(self.screen, "Welcome to the hardest game on the history of the planet, Press any key to begin your misery press any key" , 25, GREEN, WIDTH/2 - 32, 2)
+        self.draw_text(self.screen, "Welcome to the hardest game on the history of the planet. Your goal is to reach the center of the maze. Good Luck" , 20, GREEN, WIDTH/2 - 32, 2)
         pg.display.flip()
         self.wait_for_key()
 
