@@ -8,8 +8,11 @@ from random import randint
 from sprites import *
 from os import path
 # data types: in, string, float, bool
+#Tino helped with specail ability
+#Used the help of ChatGPT for text once completed level
+#Used ccozort for mob and help
 
-# Character ability, spawned enemies, start screen
+# Character ability, spawned enemies, start screen, music
 
 #creating the game class
 class Game:
@@ -21,6 +24,7 @@ class Game:
         self.clock = pg.time.Clock()
         pg.key.set_repeat(500, 100)
         self.load_data()
+        #inializes music
         pg.mixer.init()
     #we have defined the run method in our function
     
@@ -34,6 +38,7 @@ class Game:
 
 
     def new(self):
+        #loads music and plays
         pg.mixer.music.load('music.mp3')
         pg.mixer.music.play(loops=-1)
         # init all variables, setup groups, instantiate classes
@@ -66,7 +71,7 @@ class Game:
                     self.quit()
                 if event.type == pg.KEYUP:
                     waiting = False
-
+#ai assisted: Defines draw_deft function
     def draw_text(self, surface, text, size, color, x, y):
         font_name = pg.font.match_font('arial')
         font = pg.font.Font(font_name, size)
@@ -88,13 +93,14 @@ class Game:
 
     def update(self):
          self.all_sprites.update()
-
+#grid is created
     def draw_grid(self):
         for x in range(0, WIDTH, TILESIZE):
             pg.draw.line(self.screen, LIGHTGREY, (x, 0), (x, HEIGHT))
         for y in range(0, WIDTH, TILESIZE):
             pg.draw.line(self.screen, LIGHTGREY, (0, y), (WIDTH, y))
     def draw(self):
+        #BGCOLOR in setting.py
         self.screen.fill(BGCOLOR)
         self.draw_grid()
         self.all_sprites.draw(self.screen)
@@ -114,11 +120,12 @@ class Game:
                     #self.player.move(dy=-1)d
                 #if event.key == pg.K_DOWN:
                     #self.player.move(dy=1)
-    
+    #start screen
     def show_start_screen(self):
         self.screen.fill(BGCOLOR)
         self.draw_text(self.screen, "Welcome to the hardest game on the history of the planet. Your goal is to reach the center of the maze. Good Luck" , 20, GREEN, WIDTH/2 - 32, 2)
         pg.display.flip()
+        #waits for any key to get pressed
         self.wait_for_key()
 
     def wait_for_key(self):

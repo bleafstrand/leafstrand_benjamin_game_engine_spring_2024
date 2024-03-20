@@ -30,7 +30,7 @@ class Player(Sprite):
     #def move(self, dx=0, dy=0):
         #self.x += dx
         #self.y += dy
-
+#this is where play movement happens
     def get_keys(self):
         self.vx, self.vy = 0,0
         keys = pg.key.get_pressed()
@@ -42,6 +42,7 @@ class Player(Sprite):
             self.vy = -PLAYER_SPEED
         if keys[pg.K_DOWN] or keys[pg.K_s]:
             self.vy = PLAYER_SPEED
+            #special ability
         if keys[pg.K_LSHIFT] or keys[pg.K_RSHIFT]:
             if self.dash_start_time == 0:
                 self.dash_start_time = pg.time.get_ticks()
@@ -59,7 +60,7 @@ class Player(Sprite):
         if hits:
             self.rect.width += 25
             self.rect.height += 25
-
+#collion detection
     def collide_with_walls(self, dir):
         if dir == 'x':
             hits = pg.sprite.spritecollide(self, self.game.walls, False)
@@ -94,11 +95,11 @@ class Player(Sprite):
         self.collide_with_obj(self.game.mobs, False)
         if self.game.map_data[int(self.y // TILESIZE)][int(self.x // TILESIZE)] == 'F':
                 self.show_congratulations_popup()
-    
+  #ai assisted code  
     def show_congratulations_popup(self):
         popup_text = "Congratulations! You finished the hardest game in the world."
         popup_font = pg.font.Font(None, 30)
-        popup_surface = popup_font.render(popup_text, True, WHITE)
+        popup_surface = popup_font.render(popup_text, True, WHITE, BLACK)
         popup_rect = popup_surface.get_rect(center=(WIDTH // 2, HEIGHT // 2))
         self.game.screen.blit(popup_surface, popup_rect)
         pg.display.flip()
@@ -119,7 +120,7 @@ class Wall(Sprite):
         self.rect.x = x * TILESIZE
         self.rect.y = y * TILESIZE
 
-
+#mob class
 class Mob(pg.sprite.Sprite):
     def __init__(self, game, x, y):
         self.groups = game.all_sprites, game.mobs

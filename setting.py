@@ -9,7 +9,7 @@ WIDTH = 1024
 #this si 24 grids high
 HEIGHT = 768
 TILESIZE = 32
-
+#all of my colors
 SKYBLUE = (111, 186, 234)
 
 LIGHTGREY = (100,100,100)
@@ -19,3 +19,4 @@ RED = (255, 0, 0)
 BROWN = (165,42,42)
 WHITE = (255,255,255)
 BGCOLOR = BROWN
+BLACK = (0,0,0)
