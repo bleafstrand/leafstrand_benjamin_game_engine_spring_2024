@@ -122,12 +122,13 @@ class Wall(Sprite):
 
 #mob class
 class Mob(pg.sprite.Sprite):
+    #properties of class
     def __init__(self, game, x, y):
         self.groups = game.all_sprites, game.mobs
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
         self.image = pg.Surface((TILESIZE, TILESIZE))
-        self.image.fill(BROWN)
+        self.image.fill(RED)
         self.rect = self.image.get_rect()
         self.x = x
         self.y = y

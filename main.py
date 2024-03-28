@@ -71,7 +71,7 @@ class Game:
                     self.quit()
                 if event.type == pg.KEYUP:
                     waiting = False
-#ai assisted: Defines draw_deft function
+#ai assisted: Defines draw_text function
     def draw_text(self, surface, text, size, color, x, y):
         font_name = pg.font.match_font('arial')
         font = pg.font.Font(font_name, size)
