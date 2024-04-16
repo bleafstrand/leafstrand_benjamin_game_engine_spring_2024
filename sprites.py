@@ -4,10 +4,30 @@
 
 
 #create a player class
+from os import path
 import pygame as pg
 from pygame.sprite import Sprite
 from setting import *
 #create a wall class
+SPRITESHEET = "EJ60F1aXOAAYiAb.jpg"
+# needed for animated sprite
+game_folder = path.dirname(__file__)
+img_folder = path.join(game_folder, 'images')
+# needed for animated sprite
+
+class Spritesheet:
+    # utility class for loading and parsing spritesheets
+    def __init__(self, filename):
+        self.spritesheet = pg.image.load(filename).convert()
+
+    def get_image(self, x, y, width, height):
+        # grab an image out of a larger spritesheet
+        image = pg.Surface((width, height))
+        image.blit(self.spritesheet, (0, 0), (x, y, width, height))
+        # image = pg.transform.scale(image, (width, height))
+        image = pg.transform.scale(image, (width * 4, height * 4))
+        return image
+
 
 #make sure Player is capitilized
 class Player(Sprite):
@@ -16,8 +36,12 @@ class Player(Sprite):
         self.groups = game.all_sprites
         Sprite.__init__(self, self.groups)
         self.game = game
+        self.spritesheet = Spritesheet(path.join(img_folder, SPRITESHEET))
+        # needed for animated sprite
+        self.load_images()
         self.image = pg.Surface((TILESIZE, TILESIZE))
         self.image.fill(YELLOW)
+        self.image = self.standing_frames[0]
         self.rect = self.image.get_rect()
         self.vx, self.vy = 0, 0
         self.x = x * TILESIZE
@@ -25,6 +49,33 @@ class Player(Sprite):
         self.speed = 3000
         self.dash_start_time = 0
         self.dash_duration = 1
+         # needed for animated sprite
+        self.current_frame = 0
+        # needed for animated sprite
+        self.last_update = 0
+        self.material = True
+        # needed for animated sprite
+        self.jumping = False
+        # needed for animated sprite
+        self.walking = False
+
+    def load_images(self):
+        self.standing_frames = [self.spritesheet.get_image(0,0, 32, 32), 
+                                self.spritesheet.get_image(32,0, 32, 32)]
+        # for frame in self.standing_frames:
+        #     frame.set_colorkey(BLACK)
+
+        # add other frame sets for different poses etc.
+    # needed for animated sprite        
+    def animate(self):
+        now = pg.time.get_ticks()
+        if now - self.last_update > 350:
+            self.last_update = now
+            self.current_frame = (self.current_frame + 1) % len(self.standing_frames)
+            bottom = self.rect.bottom
+            self.image = self.standing_frames[self.current_frame]
+            self.rect = self.image.get_rect()
+            self.rect.bottom = bottom
     
 
     #def move(self, dx=0, dy=0):
@@ -166,4 +217,3 @@ class Mob(pg.sprite.Sprite):
         self.collide_with_walls('x')
         self.rect.y = self.y
         self.collide_with_walls('y')
-

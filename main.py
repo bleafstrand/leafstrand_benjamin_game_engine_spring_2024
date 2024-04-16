@@ -19,6 +19,7 @@ class Game:
     #inializes function
     def __init__(self):
         pg.init()
+        #self.img_folder = path.join(self.game_folder, 'images')
         self.screen = pg.display.set_mode((WIDTH, HEIGHT))
         pg.display.set_caption(TITLE)
         self.clock = pg.time.Clock()
