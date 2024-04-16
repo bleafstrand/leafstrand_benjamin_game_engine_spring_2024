@@ -9,7 +9,7 @@ import pygame as pg
 from pygame.sprite import Sprite
 from setting import *
 #create a wall class
-SPRITESHEET = "EJ60F1aXOAAYiAb.jpg"
+SPRITESHEET = "theBell.png"
 # needed for animated sprite
 game_folder = path.dirname(__file__)
 img_folder = path.join(game_folder, 'images')
@@ -25,7 +25,7 @@ class Spritesheet:
         image = pg.Surface((width, height))
         image.blit(self.spritesheet, (0, 0), (x, y, width, height))
         # image = pg.transform.scale(image, (width, height))
-        image = pg.transform.scale(image, (width * 4, height * 4))
+        image = pg.transform.scale(image, (width * 1, height * 1))
         return image
 
 
@@ -36,11 +36,11 @@ class Player(Sprite):
         self.groups = game.all_sprites
         Sprite.__init__(self, self.groups)
         self.game = game
+        self.image = pg.Surface((TILESIZE, TILESIZE))
         self.spritesheet = Spritesheet(path.join(img_folder, SPRITESHEET))
         # needed for animated sprite
         self.load_images()
-        self.image = pg.Surface((TILESIZE, TILESIZE))
-        self.image.fill(YELLOW)
+        #self.image.fill(YELLOW)
         self.image = self.standing_frames[0]
         self.rect = self.image.get_rect()
         self.vx, self.vy = 0, 0
@@ -58,6 +58,7 @@ class Player(Sprite):
         self.jumping = False
         # needed for animated sprite
         self.walking = False
+        self.can_collide = True
 
     def load_images(self):
         self.standing_frames = [self.spritesheet.get_image(0,0, 32, 32), 
@@ -134,6 +135,8 @@ class Player(Sprite):
 
 #woohoo math
     def update(self):
+        self.animate()
+        self.get_keys()
         self.get_keys()
         self.x += self.vx * self.game.dt
         self.y += self.vy * self.game.dt
