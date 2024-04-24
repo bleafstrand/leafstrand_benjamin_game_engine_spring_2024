@@ -7,11 +7,11 @@ from setting import *
 from random import randint
 from sprites import *
 from os import path
+# I want to add another maze level to make the game even more hard :)
 # data types: in, string, float, bool
 #Tino helped with specail ability
 #Used the help of ChatGPT for text once completed level
 #Used ccozort for mob and help
-
 # Character ability, spawned enemies, start screen, music
 
 #creating the game class
