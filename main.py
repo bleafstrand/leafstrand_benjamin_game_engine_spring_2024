@@ -62,6 +62,9 @@ class Game:
                     self.player = Player(self, col, row)
                 if tile == 'M':
                     Mob(self, col, row)
+                if tile == '6':
+                    Secret(self, col, row)
+
             
     def wait_for_key(self):
         waiting = True
