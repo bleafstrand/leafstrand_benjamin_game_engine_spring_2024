@@ -135,6 +135,14 @@ class Player(Sprite):
 
 #woohoo math
     def update(self):
+        if self.game.map_data[int(self.rect.y // TILESIZE)][int(self.rect.x // TILESIZE)] == 'F':
+            # Restart the level
+            self.game.new()
+            #spawn mob at A position on map
+            for row, tiles in enumerate(self.game.map_data):
+                for col, tile in enumerate(tiles):
+                    if tile == 'A':
+                        Mob(self.game, col, row)
         self.animate()
         self.get_keys()
         self.get_keys()
@@ -151,7 +159,7 @@ class Player(Sprite):
                 self.show_congratulations_popup()
   #ai assisted code  
     def show_congratulations_popup(self):
-        popup_text = "Congratulations! You finished the hardest game in the world."
+        popup_text = "Congratulations! You finished the hardest game in the world.... SIKE your toast on this next one buddy"
         popup_font = pg.font.Font(None, 30)
         popup_surface = popup_font.render(popup_text, True, WHITE, BLACK)
         popup_rect = popup_surface.get_rect(center=(WIDTH // 2, HEIGHT // 2))

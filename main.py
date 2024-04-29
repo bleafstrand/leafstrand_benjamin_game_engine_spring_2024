@@ -42,6 +42,7 @@ class Game:
         #loads music and plays
         pg.mixer.music.load('music.mp3')
         pg.mixer.music.play(loops=-1)
+        
         # init all variables, setup groups, instantiate classes
         self.all_sprites = pg.sprite.Group()
         self.walls = pg.sprite.Group()
@@ -61,7 +62,7 @@ class Game:
                     self.player = Player(self, col, row)
                 if tile == 'M':
                     Mob(self, col, row)
-
+            
     def wait_for_key(self):
         waiting = True
         while waiting:
@@ -126,7 +127,7 @@ class Game:
         self.screen.fill(BGCOLOR)
         self.draw_text(self.screen, "Welcome to the hardest game on the history of the planet. Your goal is to reach the center of the maze. Good Luck" , 20, GREEN, WIDTH/2 - 32, 2)
         pg.display.flip()
-        #waits for any key to get pressed
+        #waits for any key to get pressedr
         self.wait_for_key()
 
     def wait_for_key(self):
