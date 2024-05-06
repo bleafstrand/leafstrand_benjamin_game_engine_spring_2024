@@ -10,7 +10,7 @@ from os import path
 # I want to add another maze level to make the game even more hard :)
 # data types: in, string, float, bool
 #Tino helped with specail ability
-#Used the help of ChatGPT for text once completed level
+#Used the help of ChatGPT 
 #Used ccozort for mob and help
 # Character ability, spawned enemies, start screen, music
 
@@ -47,7 +47,7 @@ class Game:
         self.all_sprites = pg.sprite.Group()
         self.walls = pg.sprite.Group()
         self.mobs = pg.sprite.Group()
-        # self.player = Player(self, 10, 10)
+        # self.player = Player(self, 10, 10)w
         # for x in range(10, 20):
         #     Wall(self, x, 5)
         for row, tiles in enumerate(self.map_data):
@@ -64,6 +64,9 @@ class Game:
                     Mob(self, col, row)
                 if tile == '6':
                     Secret(self, col, row)
+                if tile == 'D':  # Closed door
+                    Door(self, col, row)  # Create a Door instance
+                    
 
             
     def wait_for_key(self):

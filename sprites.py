@@ -60,6 +60,7 @@ class Player(Sprite):
         self.walking = False
         self.can_collide = True
 
+
     def load_images(self):
         self.standing_frames = [self.spritesheet.get_image(0,0, 32, 32), 
                                 self.spritesheet.get_image(32,0, 32, 32)]
@@ -110,8 +111,11 @@ class Player(Sprite):
     def collide_with_obj(self, group, kill):
         hits = pg.sprite.spritecollide(self, group, kill)
         if hits:
-            self.rect.width += 25
-            self.rect.height += 25
+            for s in self.game.all_sprites:
+                s.kill()
+            # If the player collides with a mob, restart the game
+            self.game.new()
+    
 #collion detection
     def collide_with_walls(self, dir):
         if dir == 'x':
@@ -239,3 +243,29 @@ class Mob(pg.sprite.Sprite):
         self.collide_with_walls('x')
         self.rect.y = self.y
         self.collide_with_walls('y')
+
+class Door(Sprite):
+    def __init__(self, game, x, y):
+        Sprite.__init__(self)
+        self.game = game
+        self.image_closed = pg.Surface((TILESIZE, TILESIZE))
+        self.image_closed.fill(GREEN)  # Closed door color
+        self.image_open = pg.Surface((TILESIZE, TILESIZE))
+        self.image_open.fill(BLACK)  # Open door color
+        self.image = self.image_closed  # Start with the door closed
+        self.rect = self.image.get_rect()
+        self.rect.x = x * TILESIZE
+        self.rect.y = y * TILESIZE
+        self.last_toggle_time = 0
+        self.is_open = False
+
+    def update(self):
+        now = pg.time.get_ticks()
+        if now - self.last_toggle_time > 5000 and not self.is_open:
+            self.image = self.image_open
+            self.is_open = True
+            self.last_toggle_time = now
+        elif now - self.last_toggle_time > 1000 and self.is_open:
+            self.image = self.image_closed
+            self.is_open = False
+            self.last_toggle_time = now
