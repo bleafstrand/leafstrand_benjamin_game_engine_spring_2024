@@ -65,7 +65,8 @@ class Game:
                 if tile == '6':
                     Secret(self, col, row)
                 if tile == 'D':  # Closed door
-                    Door(self, col, row)  # Create a Door instance
+                    door = Door(self, col, row)  # Create a Door instance
+                    self.all_sprites.add(door)
                     
 
             

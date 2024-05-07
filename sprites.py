@@ -161,6 +161,8 @@ class Player(Sprite):
         self.collide_with_obj(self.game.mobs, False)
         if self.game.map_data[int(self.y // TILESIZE)][int(self.x // TILESIZE)] == 'F':
                 self.show_congratulations_popup()
+
+        
   #ai assisted code  
     def show_congratulations_popup(self):
         popup_text = "Congratulations! You finished the hardest game in the world.... SIKE your toast on this next one buddy"
