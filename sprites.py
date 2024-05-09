@@ -59,6 +59,8 @@ class Player(Sprite):
         # needed for animated sprite
         self.walking = False
         self.can_collide = True
+        self.last_toggle_time = 0
+        self.doors_open = True
 
 
     def load_images(self):
@@ -111,31 +113,35 @@ class Player(Sprite):
     def collide_with_obj(self, group, kill):
         hits = pg.sprite.spritecollide(self, group, kill)
         if hits:
-            for s in self.game.all_sprites:
-                s.kill()
+            if group == self.game.mobs:
+                for s in self.game.all_sprites:
+                    s.kill()
+            if group == self.game.doors:
+                if self.doors_open == True:
+                    for s in self.game.all_sprites:
+                        s.kill()
             # If the player collides with a mob, restart the game
             self.game.new()
     
 #collion detection
     def collide_with_walls(self, dir):
+        hits = pg.sprite.spritecollide(self, self.game.walls, False)
         if dir == 'x':
-            hits = pg.sprite.spritecollide(self, self.game.walls, False)
-            if hits: 
-                if self.vx > 0:
-                    self.x = hits[0].rect.left - self.rect.width
-                if self.vx < 0:
-                    self.x = hits[0].rect.right 
-                self.vx=0
-                self.rect.x = self.x
-        if dir == 'y':
-            hits = pg.sprite.spritecollide(self, self.game.walls, False)
-            if hits: 
-                if self.vy > 0:
-                    self.y = hits[0].rect.top - self.rect.height
-                if self.vy < 0:
-                    self.y = hits[0].rect.bottom 
-                self.vy=0
-                self.rect.y = self.y
+            for wall in hits:
+                if self.vx > 0:  # Moving right
+                    self.rect.right = wall.rect.left
+                elif self.vx < 0:  # Moving left
+                 self.rect.left = wall.rect.right
+            self.x = self.rect.x  # Update the x position
+            self.vx = 0  # Stop horizontal movement
+        elif dir == 'y':
+            for wall in hits:
+                if self.vy > 0:  # Moving down
+                    self.rect.bottom = wall.rect.top
+                elif self.vy < 0:  # Moving up
+                    self.rect.top = wall.rect.bottom
+                self.y = self.rect.y  # Update the y position
+                self.vy = 0  # Stop vertical movement
 
 #woohoo math
     def update(self):
@@ -147,6 +153,13 @@ class Player(Sprite):
                 for col, tile in enumerate(tiles):
                     if tile == 'A':
                         Mob(self.game, col, row)
+        now = pg.time.get_ticks()
+        if now - self.last_toggle_time > 5000 and not self.doors_open:
+            self.doors_open = True
+            self.last_toggle_time = now
+        elif now - self.last_toggle_time > 1000 and self.doors_open:
+            self.doors_open = False
+            self.last_toggle_time = now
         self.animate()
         self.get_keys()
         self.get_keys()
@@ -159,6 +172,7 @@ class Player(Sprite):
         self.collide_with_walls('y')
         #add y collision in future
         self.collide_with_obj(self.game.mobs, False)
+        self.collide_with_obj(self.game.doors, False)
         if self.game.map_data[int(self.y // TILESIZE)][int(self.x // TILESIZE)] == 'F':
                 self.show_congratulations_popup()
 
@@ -248,10 +262,11 @@ class Mob(pg.sprite.Sprite):
 
 class Door(Sprite):
     def __init__(self, game, x, y):
-        Sprite.__init__(self)
+        self.groups = game.all_sprites, game.doors
+        Sprite.__init__(self, self.groups)
         self.game = game
         self.image_closed = pg.Surface((TILESIZE, TILESIZE))
-        self.image_closed.fill(GREEN)  # Closed door color
+        self.image_closed.fill(RED)  # Closed door color
         self.image_open = pg.Surface((TILESIZE, TILESIZE))
         self.image_open.fill(BLACK)  # Open door color
         self.image = self.image_closed  # Start with the door closed

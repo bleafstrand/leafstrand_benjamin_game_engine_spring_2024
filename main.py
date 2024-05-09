@@ -47,6 +47,7 @@ class Game:
         self.all_sprites = pg.sprite.Group()
         self.walls = pg.sprite.Group()
         self.mobs = pg.sprite.Group()
+        self.doors = pg.sprite.Group()
         # self.player = Player(self, 10, 10)w
         # for x in range(10, 20):
         #     Wall(self, x, 5)
