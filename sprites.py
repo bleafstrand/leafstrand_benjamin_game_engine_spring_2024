@@ -118,12 +118,33 @@ class Player(Sprite):
                     s.kill()
             if group == self.game.doors:
                 if self.doors_open == True:
-                    for s in self.game.all_sprites:
-                        s.kill()
+                    print('walk through door...')
+                    # for s in self.game.all_sprites:
+                    #     s.kill()
             # If the player collides with a mob, restart the game
-            self.game.new()
+            # self.game.new()
     
 #collion detection
+    def collide_with_doors(self, dir):
+        hits = pg.sprite.spritecollide(self, self.game.doors, False)
+        if hits:
+            if hits[0].is_open == False:
+                if dir == 'x':
+                    for wall in hits:
+                        if self.vx > 0:  # Moving right
+                            self.rect.right = wall.rect.left
+                        elif self.vx < 0:  # Moving left
+                            self.rect.left = wall.rect.right
+                    self.x = self.rect.x  # Update the x position
+                    self.vx = 0  # Stop horizontal movement
+                elif dir == 'y':
+                    for wall in hits:
+                        if self.vy > 0:  # Moving down
+                            self.rect.bottom = wall.rect.top
+                        elif self.vy < 0:  # Moving up
+                            self.rect.top = wall.rect.bottom
+                        self.y = self.rect.y  # Update the y position
+                        self.vy = 0  # Stop vertical movement
     def collide_with_walls(self, dir):
         hits = pg.sprite.spritecollide(self, self.game.walls, False)
         if dir == 'x':
@@ -153,23 +174,24 @@ class Player(Sprite):
                 for col, tile in enumerate(tiles):
                     if tile == 'A':
                         Mob(self.game, col, row)
-        now = pg.time.get_ticks()
-        if now - self.last_toggle_time > 5000 and not self.doors_open:
-            self.doors_open = True
-            self.last_toggle_time = now
-        elif now - self.last_toggle_time > 1000 and self.doors_open:
-            self.doors_open = False
-            self.last_toggle_time = now
+        # now = pg.time.get_ticks()
+        # if now - self.last_toggle_time > 5000 and not self.doors_open:
+        #     self.doors_open = False
+        #     self.last_toggle_time = now
+        # elif now - self.last_toggle_time > 1000 and self.doors_open:
+        #     self.doors_open = True
+        #     self.last_toggle_time = now
         self.animate()
-        self.get_keys()
         self.get_keys()
         self.x += self.vx * self.game.dt
         self.y += self.vy * self.game.dt
         self.rect.x = self.x
         #add x collision in future
         self.collide_with_walls('x')
+        self.collide_with_doors('x')
         self.rect.y = self.y
         self.collide_with_walls('y')
+        self.collide_with_doors('y')
         #add y collision in future
         self.collide_with_obj(self.game.mobs, False)
         self.collide_with_obj(self.game.doors, False)
