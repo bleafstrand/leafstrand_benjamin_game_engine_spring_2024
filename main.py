@@ -45,6 +45,7 @@ class Game:
         
         # init all variables, setup groups, instantiate classes
         self.all_sprites = pg.sprite.Group()
+        print(len(self.all_sprites))
         self.walls = pg.sprite.Group()
         self.mobs = pg.sprite.Group()
         self.doors = pg.sprite.Group()
@@ -67,8 +68,8 @@ class Game:
                     Secret(self, col, row)
                 if tile == 'D':  # Closed door
                     door = Door(self, col, row)  # Create a Door instance
-                    self.all_sprites.add(door)
-                    
+                    self.all_sprites.add(door) 
+                
 
             
     def wait_for_key(self):

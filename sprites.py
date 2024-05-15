@@ -114,15 +114,15 @@ class Player(Sprite):
         hits = pg.sprite.spritecollide(self, group, kill)
         if hits:
             if group == self.game.mobs:
-                for s in self.game.all_sprites:
-                    s.kill()
+                print("i hit a mob...")
+                self.game.new()
+
+
             if group == self.game.doors:
                 if self.doors_open == True:
                     print('walk through door...')
-                    # for s in self.game.all_sprites:
-                    #     s.kill()
-            # If the player collides with a mob, restart the game
-            # self.game.new()
+    
+            
     
 #collion detection
     def collide_with_doors(self, dir):
@@ -308,3 +308,6 @@ class Door(Sprite):
             self.image = self.image_closed
             self.is_open = False
             self.last_toggle_time = now
+
+            
+
