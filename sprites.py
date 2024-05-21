@@ -282,7 +282,7 @@ class Mob(pg.sprite.Sprite):
         self.rect.y = self.y
         self.collide_with_walls('y')
 
-class Door(Sprite):
+class Door(Sprite):#ai assisted code
     def __init__(self, game, x, y):
         self.groups = game.all_sprites, game.doors
         Sprite.__init__(self, self.groups)
